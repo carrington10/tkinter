@@ -13,6 +13,9 @@ def clear_item():
 app = Tk()
 app.title("Store Manager")
 
+def select_item():
+    print("select item")
+
 
 app.geometry("700x350")
 # item
@@ -52,4 +55,12 @@ update_btn.grid(row=2,column=2,pady=20)
 clear_btn = Button(app,text='Remove button',width=12,command=clear_item)
 clear_btn.grid(row=2,column=3,pady=20)
 
+order_list = Listbox(app,height=5,width=50,borderwidth=1)
+order_list.grid(row=3,column=0,columnspan=3,rowspan=6,padx=20,pady=20)
+
+scroll = Scrollbar(app,orient=VERTICAL,command=order_list.yview)
+scroll.grid(row=3,column=2,rowspan=6,sticky=E,padx=20)
+
+order_list.configure(yscrollcommand=scroll.set)
+order_list.bind("<<List.select>>", select_item)
 app.mainloop();
