@@ -1,21 +1,47 @@
 from tkinter import *
+from db import Database
+db = Database('store.db')
+selected_item = ''
+
+def populate_list():
+    order_list.delete(0,END)
+    for row in db.fetch():
+        order_list.insert(END,row);
 def add_item():
-    print("add item")
+    if not item_text.get() or not customer_text.get() or not seller_text.get() or price_text.get():
+            item = item_text.get()
+            customer = customer_text.get()
+            seller = seller_text.get()
+            price = price_text.get()
+            db.insert(item,customer,seller,price);
+
 
 def remove_item():
-    print("add item")
-
+    print("delete_item")
 def update_item():
     print("add item")
 
 def clear_item():
-    print("add item")
+    item_entry.delete(0,END)
+    customer_entry.delete(0,END)
+    seller_entry.delete(0,END)
+    price_entry.delete(0,END)
+    selected_item = ''
 app = Tk()
 app.title("Store Manager")
 
-def select_item():
+def select_item(item):
+    clear_item();
     print("select item")
-
+    global selected_item 
+    index = order_list.curselection()[0]
+    selected_item = order_list.get(index)
+    print(selected_item)
+    item_entry.insert(END,selected_item[1])
+    customer_entry.insert(END,selected_item[2])
+    seller_entry.insert(END,selected_item[3])
+    price_entry.insert(END,selected_item[4])
+    
 
 app.geometry("700x350")
 # item
@@ -52,7 +78,7 @@ remove_btn.grid(row=2,column=1,pady=20)
 update_btn = Button(app,text='update order',width=12,command=update_item)
 update_btn.grid(row=2,column=2,pady=20)
 
-clear_btn = Button(app,text='Remove button',width=12,command=clear_item)
+clear_btn = Button(app,text='Clear button',width=12,command=clear_item)
 clear_btn.grid(row=2,column=3,pady=20)
 
 order_list = Listbox(app,height=5,width=50,borderwidth=1)
@@ -62,5 +88,7 @@ scroll = Scrollbar(app,orient=VERTICAL,command=order_list.yview)
 scroll.grid(row=3,column=2,rowspan=6,sticky=E,padx=20)
 
 order_list.configure(yscrollcommand=scroll.set)
-order_list.bind("<<List.select>>", select_item)
+order_list.bind("<<ListboxSelect>>", select_item)
+
+populate_list();
 app.mainloop();

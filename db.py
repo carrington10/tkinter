@@ -12,13 +12,9 @@ sql_insert = "insert into orders values (null,?,?,?,?)"
 
 sql_fetch = 'select * from orders'
 
+sql_remove = 'delete from users where id=?'
 
-
-
-
-
-
-
+sql_update = 'update orders set item = ?,customer = ?, seller = ? , price = ?, where id = ?'
 
 # databse class 
 class Database:
@@ -27,6 +23,17 @@ class Database:
         self.cursor = self.conn.cursor();
         self.cursor.execute(sql_create)
 
+    def insert(self,item,customer,seller,price):
+        self.cursor.execute(sql_insert,(item,customer,seller,price))
+        self.conn.commit();
+    
+    def remove(self,id):
+        self.cursor.execute(sql_remove,(id,))
+        self.conn.commit();
+
+    def update(self,id,item,customer,seller,price):
+        self.cursor.execute(sql_update,(id,item,customer,seller,price))
+        self.conn.commit();
     
     def fetch(self):
         self.cursor.execute(sql_fetch)
@@ -36,4 +43,8 @@ class Database:
         self.cursor.close();
 
 db = Database('store.db')
-db.fetch()
+db.insert('laptop','jane','apple','1400');
+db.insert('phone','camron','android','999');
+db.insert('playstation 5','jade','sony','500');
+
+print(db.fetch());
