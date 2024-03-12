@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from db import Database
 db = Database('store.db')
 selected_item = ''
@@ -8,12 +9,18 @@ def populate_list():
     for row in db.fetch():
         order_list.insert(END,row);
 def add_item():
-    if not item_text.get() or not customer_text.get() or not seller_text.get() or price_text.get():
+    print(customer_text.get())
+    if not item_text.get() or not customer_text.get() or not seller_text.get() or not price_text.get():
+            messagebox.showerror('required fields','Please include on all fields ')
+    else:
             item = item_text.get()
             customer = customer_text.get()
             seller = seller_text.get()
             price = price_text.get()
             db.insert(item,customer,seller,price);
+            populate_list();
+            clear_item();
+                
 
 
 def remove_item():
@@ -26,7 +33,7 @@ def clear_item():
     customer_entry.delete(0,END)
     seller_entry.delete(0,END)
     price_entry.delete(0,END)
-    selected_item = ''
+    selected_item = '';
 app = Tk()
 app.title("Store Manager")
 
