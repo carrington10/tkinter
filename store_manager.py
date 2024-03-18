@@ -24,8 +24,18 @@ def add_item():
 
 
 def remove_item():
+    db.remove(selected_item[0])
+    populate_list();
+    clear_item();
     print("delete_item")
 def update_item():
+    db.update(selected_item[0],item_text.get(),customer_text.get(),seller_text.get(),price_text.get());
+    populate_list();
+    clear_item();
+
+
+
+
     print("add item")
 
 def clear_item():

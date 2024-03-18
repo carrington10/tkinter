@@ -12,9 +12,9 @@ sql_insert = "insert into orders values (null,?,?,?,?)"
 
 sql_fetch = 'select * from orders'
 
-sql_remove = 'delete from users where id=?'
+sql_remove = 'delete from orders where id=?'
 
-sql_update = 'update orders set item = ?,customer = ?, seller = ? , price = ?, where id = ?'
+sql_update = 'update orders set item=?,customer=?,seller=?,price=? where id=?'
 
 # databse class 
 class Database:
